@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku</title>
+<link rel="stylesheet" href="/static/styles.css">
+<script src="/static/main.js" defer></script>
+</head>
+<body>
+<main class="game-shell">
+  <header class="game-header">
+    <div>
+      <p class="eyebrow">Daily focus</p>
+      <h1>Sudoku</h1>
+    </div>
+    <button id="dark-mode" class="icon-button" type="button" aria-label="Toggle dark mode">Dark</button>
+  </header>
+
+  <section class="game-layout" aria-label="Sudoku game">
+    <div class="game-panel">
+      <div class="toolbar">
+        <label for="difficulty">Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button id="new-game" type="button">New game</button>
+      </div>
+      <div class="status-bar">
+        <span id="timer" aria-live="polite">00:00</span>
+        <span id="message" role="status" aria-live="polite"></span>
+      </div>
+      <div id="sudoku-board" aria-label="Sudoku board"></div>
+      <div class="action-row">
+        <button id="check-solution" type="button">Check</button>
+        <button id="hint" type="button">Hint</button>
+      </div>
+    </div>
+
+    <aside id="leaderboard" class="leaderboard">
+      <div class="leaderboard-heading">
+        <div>
+          <p class="eyebrow">Personal bests</p>
+          <h2>Leaderboard</h2>
+        </div>
+        <span id="leaderboard-difficulty">Easy</span>
+      </div>
+      <ol id="scores"></ol>
+      <p id="empty-scores">Solve a puzzle to set a time.</p>
+    </aside>
+  </section>
+</main>
+</body>
+</html>
