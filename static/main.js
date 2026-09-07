@@ -35,7 +35,6 @@ function stopTimer() {
   clearInterval(timerId);
   timerId = null;
 }
-
 function createBoardElement() {
   const boardDiv = boardElement();
   boardDiv.innerHTML = '';
@@ -46,25 +45,17 @@ function createBoardElement() {
       const input = document.createElement('input');
       input.type = 'text';
       input.maxLength = 1;
-      input.className = 'sudoku-cell';
+      const blockRow = Math.floor(i / 3);
+      const blockCol = Math.floor(j / 3);
+      const isAlt = (blockRow + blockCol) % 2 === 1;
+      input.className = isAlt ? 'sudoku-cell block-alt' : 'sudoku-cell block-base';
       input.dataset.row = i;
       input.dataset.col = j;
-      input.setAttribute('inputmode', 'numeric');
-      input.setAttribute('aria-label', `Row ${i + 1}, column ${j + 1}`);
-      input.addEventListener('input', (e) => {
-        const val = e.target.value.replace(/[^1-9]/g, '');
-        e.target.value = val.slice(-1);
-        validateBoard();
-        checkWin();
-      });
       rowDiv.appendChild(input);
     }
     boardDiv.appendChild(rowDiv);
   }
 }
-
-function renderPuzzle(puz) {
-  puzzle = puz;
   createBoardElement();
   const boardDiv = boardElement();
   const inputs = boardDiv.getElementsByTagName('input');
