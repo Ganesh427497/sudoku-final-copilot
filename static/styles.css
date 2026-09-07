@@ -1,178 +1,116 @@
+/* General */
 body {
-    --ink: #152238;
-    --muted: #65758b;
-    --surface: #ffffff;
-    --canvas: #eef3f7;
-    --line: #cbd5df;
-    --accent: #176b87;
-    --accent-light: #d9f0f4;
-    --error: #f6c7c8;
-    --success: #c5e8d2;
-    font-family: Georgia, 'Times New Roman', serif;
-    background: var(--canvas);
-    color: var(--ink);
-    margin: 0;
-    min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s;
 }
 
-.game-shell {
-    max-width: 1050px;
-    margin: 0 auto;
-    padding: 44px 24px 64px;
+:root {
+  --bg-color: #f8fafc;
+  --text-color: #1e293b;
+  --border-color: #334155;
+  --block-base: #dbeafe;
+  --block-alt: #ffffff;
+  --prefilled-bg: #bfdbfe;
+  --cell-text: #1e293b;
+  --invalid-bg: #fecaca;
 }
 
-.game-header, .toolbar, .status-bar, .leaderboard-heading, .action-row {
-    display: flex;
-    align-items: center;
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --text-color: #f1f5f9;
+  --border-color: #e2e8f0;
+  --block-base: #1e2a45;
+  --block-alt: #2c3e62;
+  --prefilled-bg: #1e3a5f;
+  --cell-text: #f1f5f9;
+  --invalid-bg: #7f1d1d;
 }
-
-.game-header {
-    justify-content: space-between;
-    margin-bottom: 34px;
-}
-
-.eyebrow {
-    color: var(--accent);
-    font: 700 0.72rem/1.2 Arial, sans-serif;
-    letter-spacing: 0.14em;
-    margin: 0 0 7px;
-    text-transform: uppercase;
-}
-
-h1, h2 {
-    margin: 0;
-    line-height: 1;
-}
-
-h1 { font-size: clamp(2.6rem, 7vw, 5rem); }
-h2 { font-size: 1.8rem; }
-
-.game-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
-    gap: 42px;
-    align-items: start;
-}
-
-.game-panel, .leaderboard {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    box-shadow: 0 14px 30px rgba(21, 34, 56, 0.07);
-}
-
-.game-panel { padding: 24px; }
-.toolbar { gap: 12px; flex-wrap: wrap; }
-.toolbar label { font: 700 0.78rem Arial, sans-serif; color: var(--muted); text-transform: uppercase; }
-select, button {
-    border: 1px solid var(--line);
-    border-radius: 3px;
-    font: 700 0.86rem Arial, sans-serif;
-    padding: 10px 13px;
-}
-select { background: var(--surface); color: var(--ink); }
-button { background: var(--accent); color: #fff; cursor: pointer; }
-button:hover { filter: brightness(1.1); }
-button:focus-visible, select:focus-visible, .sudoku-cell:focus-visible { outline: 3px solid #f0b44d; outline-offset: 2px; }
-.icon-button { background: transparent; border-color: var(--accent); color: var(--accent); }
-.status-bar { justify-content: space-between; min-height: 44px; margin-top: 12px; }
-#timer { font: 700 1.4rem Arial, sans-serif; font-variant-numeric: tabular-nums; }
-#message { color: var(--muted); font: 0.9rem Arial, sans-serif; text-align: right; }
-.error-message { color: #a72e32 !important; }
-.success-message { color: #237347 !important; }
 
 #sudoku-board {
-  display: grid;
-  grid-template-columns: repeat(9, minmax(30px, 1fr));
-  max-width: 540px;
-  margin: 14px auto 24px;
-  border: 3px solid var(--ink);
-  background: var(--surface);
-  aspect-ratio: 1 / 1;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 20px auto;
+  border: 3px solid var(--border-color);
 }
-.sudoku-row { display: contents; }
+
+.sudoku-row {
+  display: flex;
+}
+
 .sudoku-cell {
-    aspect-ratio: 1;
-    width: 100%;
-    min-width: 0;
-    border: 1px solid var(--line);
-    border-width: 0 1px 1px 0;
-    color: var(--ink);
-    background: var(--surface);
-    font: 1.35rem Arial, sans-serif;
-    text-align: center;
-    outline: none;
-    transition: background 0.15s, color 0.15s;
-}
-.sudoku-cell:nth-child(3n) { border-right: 2px solid var(--ink); }
-.sudoku-row:nth-child(3) .sudoku-cell, .sudoku-row:nth-child(6) .sudoku-cell { border-bottom: 2px solid var(--ink); }
-.sudoku-cell.prefilled { background: var(--accent-light); font-weight: bold; }
-.sudoku-cell:focus { background: #fff4d4; }
-.sudoku-cell.incorrect, .sudoku-cell.conflict { background: var(--error); color: #8f2228; }
-.sudoku-cell.hint-locked { background: var(--success); color: #237347; font-weight: bold; }
-.action-row { justify-content: center; gap: 12px; }
-.action-row button:last-child { background: transparent; color: var(--accent); }
-
-.leaderboard { padding: 22px; }
-.leaderboard-heading { justify-content: space-between; gap: 12px; margin-bottom: 20px; }
-#leaderboard-difficulty { color: var(--accent); font: 700 0.76rem Arial, sans-serif; text-transform: uppercase; }
-#scores { color: var(--ink); margin: 0; padding-left: 25px; font-family: Arial, sans-serif; }
-#scores li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 0.86rem; }
-#scores time { color: var(--accent); font-weight: bold; font-variant-numeric: tabular-nums; }
-#empty-scores { color: var(--muted); font: 0.87rem/1.5 Arial, sans-serif; }
-
-body.dark-mode {
-    --ink: #edf4f6;
-    --muted: #a9bac5;
-    --surface: #1e2a32;
-    --canvas: #10181e;
-    --line: #455762;
-    --accent: #73c7d0;
-    --accent-light: #294850;
-    --error: #66383d;
-    --success: #285342;
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  border: 1px solid #94a3b8;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+  background-color: var(--block-base) !important;
+  color: var(--cell-text) !important;
+  outline: none;
 }
 
-@media (max-width: 760px) {
-    .game-shell { padding: 28px 14px 42px; }
-    .game-layout { grid-template-columns: 1fr; gap: 24px; }
-    .game-panel { padding: 14px; }
-    .leaderboard { max-width: none; }
-    .status-bar { align-items: flex-start; flex-direction: column; gap: 6px; }
-    #message { text-align: left; }
+.sudoku-cell.block-alt {
+  background-color: var(--block-alt) !important;
+  color: var(--cell-text) !important;
 }
-/* RUBRIC FIX: 3x3 Alternating Gray/White + No Layout Shift - FINAL PASS FIX */
-#sudoku-board {
-  aspect-ratio: 1 / 1 !important;
-  box-sizing: border-box !important;
-}
-.sudoku-cell { box-sizing: border-box !important; }
 
-/* Gray boxes - Blocks 1,3,5,7,9 - Reviewer checks this! */
-#sudoku-board .sudoku-cell:nth-child(1), #sudoku-board .sudoku-cell:nth-child(2), #sudoku-board .sudoku-cell:nth-child(3),
-#sudoku-board .sudoku-cell:nth-child(10), #sudoku-board .sudoku-cell:nth-child(11), #sudoku-board .sudoku-cell:nth-child(12),
-#sudoku-board .sudoku-cell:nth-child(19), #sudoku-board .sudoku-cell:nth-child(20), #sudoku-board .sudoku-cell:nth-child(21),
-#sudoku-board .sudoku-cell:nth-child(7), #sudoku-board .sudoku-cell:nth-child(8), #sudoku-board .sudoku-cell:nth-child(9),
-#sudoku-board .sudoku-cell:nth-child(16), #sudoku-board .sudoku-cell:nth-child(17), #sudoku-board .sudoku-cell:nth-child(18),
-#sudoku-board .sudoku-cell:nth-child(25), #sudoku-board .sudoku-cell:nth-child(26), #sudoku-board .sudoku-cell:nth-child(27),
-#sudoku-board .sudoku-cell:nth-child(31), #sudoku-board .sudoku-cell:nth-child(32), #sudoku-board .sudoku-cell:nth-child(33),
-#sudoku-board .sudoku-cell:nth-child(40), #sudoku-board .sudoku-cell:nth-child(41), #sudoku-board .sudoku-cell:nth-child(42),
-#sudoku-board .sudoku-cell:nth-child(49), #sudoku-board .sudoku-cell:nth-child(50), #sudoku-board .sudoku-cell:nth-child(51),
-#sudoku-board .sudoku-cell:nth-child(55), #sudoku-board .sudoku-cell:nth-child(56), #sudoku-board .sudoku-cell:nth-child(57),
-#sudoku-board .sudoku-cell:nth-child(64), #sudoku-board .sudoku-cell:nth-child(65), #sudoku-board .sudoku-cell:nth-child(66),
-#sudoku-board .sudoku-cell:nth-child(73), #sudoku-board .sudoku-cell:nth-child(74), #sudoku-board .sudoku-cell:nth-child(75),
-#sudoku-board .sudoku-cell:nth-child(61), #sudoku-board .sudoku-cell:nth-child(62), #sudoku-board .sudoku-cell:nth-child(63),
-#sudoku-board .sudoku-cell:nth-child(70), #sudoku-board .sudoku-cell:nth-child(71), #sudoku-board .sudoku-cell:nth-child(72),
-#sudoku-board .sudoku-cell:nth-child(79), #sudoku-board .sudoku-cell:nth-child(80), #sudoku-board .sudoku-cell:nth-child(81) {
-  background: #eef3f7 !important;
+.sudoku-cell.prefilled {
+  background-color: var(--prefilled-bg) !important;
+  color: var(--cell-text) !important;
+  font-weight: 800;
 }
-/* Thick 3x3 borders */
-#sudoku-board .sudoku-cell:nth-child(3n) { border-right: 2px solid var(--ink) !important; }
-#sudoku-board .sudoku-cell:nth-child(n+19):nth-child(-n+27) { border-bottom: 2px solid var(--ink) !important; }
-#sudoku-board .sudoku-cell:nth-child(n+46):nth-child(-n+54) { border-bottom: 2px solid var(--ink) !important; }
-/* COPILOT EVALUATION - Critical Review Example:
-   Copilot suggested: "Use JavaScript to add .dark and .light classes to each 3x3 block"
-   I REJECTED this because it causes layout shift and requires extra JS.
-   My Modification: I used pure CSS :nth-child selectors with !important and aspect-ratio: 1/1 + box-sizing
-   to create alternating colors with no layout shift. Better performance, no JS needed.
-*/
+
+.sudoku-cell.invalid {
+  background-color: var(--invalid-bg) !important;
+}
+
+.sudoku-cell:disabled {
+  opacity: 1;
+  color: var(--cell-text) !important;
+}
+
+/* Thicker borders for 3x3 blocks */
+.sudoku-row:nth-child(3n) {
+  border-bottom: 2px solid var(--border-color);
+}
+.sudoku-cell:nth-child(3n) {
+  border-right: 2px solid var(--border-color);
+}
+
+.controls {
+  text-align: center;
+  margin: 20px;
+}
+
+button, select {
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--block-alt);
+  color: var(--cell-text);
+}
+
+#message.success {
+  color: #16a34a;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#leaderboard {
+  list-style: none;
+  padding: 0;
+  max-width: 400px;
+  margin: 10px auto;
+}
+
+#leaderboard li {
+  padding: 6px;
+  border-bottom: 1px solid #ccc;
+  color: var(--cell-text);
+}
