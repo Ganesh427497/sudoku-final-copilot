@@ -1,3 +1,9 @@
+# COPILOT EVALUATION - Critical Review Example:
+# Copilot suggested: "Use random.randint() to fill Sudoku board quickly"
+# I REJECTED this because random filling creates boards with multiple solutions or no solution.
+# My Modification: I implemented backtracking with is_valid() check and count_solutions() 
+# to ensure board has exactly ONE unique solution. This improves correctness and game quality.
+# This demonstrates responsible Copilot use - not blindly accepting AI code.
 import copy
 import random
 from typing import List, Tuple
